@@ -1,4 +1,4 @@
-import MouseInfo from './Classes/MouseInfo.js';
+import MouseInfo from '../Classes/MouseInfo.js';
 
 var canvas = document.getElementById('canvasString');
 var ctx = canvas.getContext('2d');
@@ -109,7 +109,9 @@ class Dot {
 	};
 
 	Draw(ctx) {
-		if (ShowDots) {
+
+		var ShowDots = document.querySelector('#cbDots');
+		if (ShowDots.checked) {
 			if (this.Pinned) {
 				ctx.fillStyle = 'rgb(0, 255, 255)';
 			}
@@ -135,10 +137,14 @@ class Dot {
 			ctx.strokeStyle = "#FF0000";
 			ctx.stroke();
 		}
-		//ctx.beginPath();
-		//var stringLengthtxt = document.querySelector('#txtStrLength').value;
-		//ctx.arc(this.Pos.X + 2, this.Pos.Y + 2, stringLengthtxt * 5, 0, 2 * Math.PI);
-		//ctx.stroke();
+		var showCircles = document.querySelector('#cbCircles');
+		if (showCircles.checked) {
+			ctx.beginPath();
+			var stringLengthtxt = document.querySelector('#txtStrLength').value;
+			ctx.arc(this.Pos.X + 2, this.Pos.Y + 2, stringLengthtxt * 5, 0, 2 * Math.PI);
+			ctx.stroke();
+        }
+
 	};
 
 	Activate(px, py, dx, dy, speed) {
@@ -167,7 +173,10 @@ function InitCloth(theme) {
 
 function UpdateGame(timer) {
 	var deltaTime = timer - startTimer;
-
+	if (TabActive == false) {
+		window.cancelAnimationFrame(RequestID);
+		return;
+	}
 	Mouse.Update();
 
 	if (Mouse.justClicked) {
@@ -262,6 +271,7 @@ canvas.addEventListener('mousemove', function (e) {
 
 canvas.addEventListener('mousedown', function (e) {
 	e.preventDefault();
+	canvas.focus();
 	if (e.button == 2) {
 		Mouse.RightClickStart(e);
 
@@ -284,13 +294,13 @@ canvas.addEventListener('mouseup', function (e) {
 	}
 });
 document.querySelector('#cloth-tab').addEventListener('shown.bs.tab', function (e) {
+	TabActive = true;
 	RequestID = window.requestAnimationFrame(UpdateGame);
+	canvas.focus();
 });
 document.querySelector('#cloth-tab').addEventListener('hide.bs.tab', function (e) {
 	console.log("Hide Cloth");
-
-
-	window.cancelAnimationFrame(RequestID);
+	TabActive = false;
 });
 
 canvas.addEventListener('touchstart', function (e) {
@@ -314,10 +324,6 @@ document.getElementById('canvasString').addEventListener('keypress', function (e
 		}
 		newMole.Pinned = true;
 		dots.push(newMole);
-	}
-
-	if (e.key == "y") {
-		ShowDots = !ShowDots;
 	}
 });
 

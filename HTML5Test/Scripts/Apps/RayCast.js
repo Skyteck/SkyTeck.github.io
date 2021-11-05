@@ -1,4 +1,4 @@
-import MouseInfo from './Classes/MouseInfo.js';
+import MouseInfo from '../Classes/MouseInfo.js';
 
 var canvas = document.getElementById('canvasRayCast');
 var ctx = canvas.getContext('2d');
@@ -17,25 +17,7 @@ var Keys = new Array();
 function InitRayCast(theme) {
 	dot.src = '/Content/Assets/img/Diglett/dot.png';
 
-	RequestID = window.requestAnimationFrame(UpdateGame);
-}
-function DrawLine(sx, sy, ex, ey) {
-	ctx.beginPath();
-	ctx.moveTo(sx, sy);
-	ctx.lineTo(ex, ey);
-	ctx.stroke();
-}
-function getTransformedCoords(x, y, Rotation) {
-	var angle = (Rotation * -1);
-	var x2 = x;
-	var y2 = y;
-	var cos = Math.cos(angle);
-	var sin = Math.sin(angle);
-
-	var newx = -Math.floor(x2 * cos - y2 * sin);
-	var newy = Math.floor(x2 * sin + y2 * cos);
-	var returned = { X: newx, Y: newy };
-	return returned;
+	//RequestID = window.requestAnimationFrame(UpdateGame);
 }
 function UpdateGame(timer) {
 	var deltaTime = timer - startTimer;

@@ -1,9 +1,9 @@
-import MouseInfo from './Classes/MouseInfo.js';
+import MouseInfo from '../Classes/MouseInfo.js';
 
 var canvas = document.getElementById('canvasWallpaper');
 var ctx = canvas.getContext('2d');
 var theme = 'Diglett';
-var RequestID;
+var RequestID = 0;
 var dot = new Image();
 
 var dots = new Array();
@@ -45,7 +45,7 @@ function Dot(px, py, dx, dy, speed, color) {
 		if (this.Pos.X+4 > canvas.width || this.Pos.X < 0) {
 			this.Direction.X *= -1;
 			if (this.Pos.X+4 > canvas.width) {
-				this.Pos.X = canvas.width;
+				this.Pos.X = canvas.width - 6;
 			}
 			else if (this.Pos.X < 0) {
 				this.Pos.X = 0;
@@ -56,7 +56,7 @@ function Dot(px, py, dx, dy, speed, color) {
 		if (this.Pos.Y+4 > canvas.height || this.Pos.Y < 0) {
 			this.Direction.Y *= -1;
 			if (this.Pos.Y+4 > canvas.height) {
-				this.Pos.Y = canvas.height;
+				this.Pos.Y = canvas.height - 6;
 			}
 			else if (this.Pos.Y < 0) {
 				this.Pos.Y = 0;
@@ -72,8 +72,9 @@ function Dot(px, py, dx, dy, speed, color) {
 
 function InitWallpaper(theme) {
 	dot.src = '/Content/Assets/img/' + theme + '/dot.png';
-	CreateMoles(100);
-	//RequestID = window.requestAnimationFrame(DrawGame);
+	var dotCount = document.querySelector('#txtDots').value;
+	CreateMoles(dotCount);
+	RequestID = window.requestAnimationFrame(DrawGame);
 }
 
 function DrawGame(timer) {
@@ -82,7 +83,10 @@ function DrawGame(timer) {
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	//ctx.fillStyle = 'rgb(0, 0, 0)';
 	ctx.font = '24px sans-serif';
-
+	if (TabActive == false) {
+		window.cancelAnimationFrame(RequestID);
+		return;
+    }
 	var deltaTime = timer - startTimer;
 
 	Mouse.Update();
@@ -90,7 +94,6 @@ function DrawGame(timer) {
 
 	for (var i = 0; i < dots.length; i++) {
 		dots[i].Update(deltaTime);
-		ctx.drawImage(dot, dots[i].Pos.X, dots[i].Pos.Y);
 
 		//if (i != 0) {
 		for (var j = i; j < dots.length; j++) {
@@ -107,13 +110,14 @@ function DrawGame(timer) {
 			}
 
 		}
+		ctx.drawImage(dot, dots[i].Pos.X, dots[i].Pos.Y);
 
 		//}
 
 	}
 	startTimer = timer;
-	console.log("Wallpaper updating....");
-		RequestID = window.requestAnimationFrame(DrawGame);
+	RequestID = window.requestAnimationFrame(DrawGame);
+	console.log(RequestID + ' wallpaper');
 };
 
 function CreateMoles(numMoles) {
@@ -170,15 +174,21 @@ canvas.addEventListener('touchend', function (e) {
 	Mouse.ClickEnd(e);
 });
 
+$(window).on("click", "#btnApply", function () {
+	alert('clicked!');
+});
 
+$('#btnApplyDots').click(function () {
+	dots = new Array();
+	var dotCount = document.querySelector('#txtDots').value;
+	CreateMoles(dotCount);
+});
 document.querySelector('#wallpaper-tab').addEventListener('shown.bs.tab', function (e) {
-	console.log("Show wallpaper");
+	TabActive = true;
 	RequestID = window.requestAnimationFrame(DrawGame);
 });
 document.querySelector('#wallpaper-tab').addEventListener('hide.bs.tab', function (e) {
-	console.log("Hide wallpaper");
-
-	window.cancelAnimationFrame(RequestID);
+	TabActive = false;
 });
 
 function CheckMouseHover(mousePos, theRect) {

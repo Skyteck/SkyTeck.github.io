@@ -205,6 +205,7 @@
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
     <None Include="My Project\PublishProfiles\RELLZY - Web Deploy.pubxml" />
+    <None Include="My Project\PublishProfiles\SkyTeck - Web Deploy.pubxml" />
     <None Include="My Project\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <CustomToolNamespace>My</CustomToolNamespace>
@@ -212,10 +213,13 @@
     </None>
     <None Include="packages.config" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\Apps\Virus.js" />
     <Content Include="Scripts\Classes\Car.js" />
+    <Content Include="Scripts\Classes\Helpers.js" />
+    <Content Include="Scripts\Classes\Human.js" />
     <Content Include="Scripts\Classes\Sprite.js" />
-    <Content Include="Scripts\RayCast.js" />
-    <Content Include="Scripts\vroom.js" />
+    <Content Include="Scripts\Apps\RayCast.js" />
+    <Content Include="Scripts\Apps\vroom.js" />
     <Content Include="Scripts\GameScene.js" />
     <Content Include="Scripts\MenuScene.js" />
     <Content Include="Scripts\KBInfo.js" />
@@ -223,9 +227,9 @@
     <Content Include="Scripts\Classes\Transform.js" />
     <Content Include="Scripts\Mole.js" />
     <Content Include="Scripts\Classes\BoundingBox.js" />
-    <Content Include="Scripts\Perlintest.js" />
-    <Content Include="Scripts\Clothtest.js" />
-    <Content Include="Scripts\Wallpaper.js" />
+    <Content Include="Scripts\Apps\Perlintest.js" />
+    <Content Include="Scripts\Apps\Clothtest.js" />
+    <Content Include="Scripts\Apps\Wallpaper.js" />
     <Content Include="Scripts\WhackAMoleArmadaEngine.js" />
     <Content Include="Scripts\WhackAMole.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

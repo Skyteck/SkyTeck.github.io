@@ -1,6 +1,6 @@
-import MouseInfo from './Classes/MouseInfo.js';
-import BoundingBox from './Classes/BoundingBox.js';
-import Car from './Classes/Car.js';
+import MouseInfo from '../Classes/MouseInfo.js';
+import BoundingBox from '../Classes/BoundingBox.js';
+import Car from '../Classes/Car.js';
 
 var canvas = document.getElementById('canvasVroom');
 var ctx = canvas.getContext('2d');
@@ -25,6 +25,7 @@ var endFrontCam = {
 	Y: 0
 };
 function InitVroom(theme) {
+	canvas.focus();
 	dot.src = '/Content/Assets/img/' + theme + '/dot.png';
 
 	Boxes.push(new BoundingBox(0, -2, canvas.width, 6));
@@ -125,6 +126,7 @@ canvas.addEventListener('mousemove', function (e) {
 });
 
 canvas.addEventListener('mousedown', function (e) {
+	canvas.focus();
 	e.preventDefault();
 	if (e.button == 2) {
 		Mouse.RightClickStart(e);
@@ -148,6 +150,7 @@ canvas.addEventListener('mouseup', function (e) {
 	}
 });
 document.querySelector('#vroom-tab').addEventListener('shown.bs.tab', function (e) {
+	canvas.focus();
 	RequestID = window.requestAnimationFrame(UpdateGame);
 });
 document.querySelector('#vroom-tab').addEventListener('hide.bs.tab', function (e) {

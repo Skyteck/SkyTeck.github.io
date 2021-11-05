@@ -1,6 +1,6 @@
-import MouseInfo from './Classes/MouseInfo.js';
-import BoundingBox from './Classes/BoundingBox.js';
-import Transform from './Classes/Transform.js';
+import MouseInfo from '../Classes/MouseInfo.js';
+import BoundingBox from '../Classes/BoundingBox.js';
+import Transform from '../Classes/Transform.js';
 
 var canvas = document.getElementById('canvasPerlin');
 var ctx = canvas.getContext('2d');
@@ -194,7 +194,10 @@ var et = null;
 var p;
 function DrawGame(timer) {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+	if (TabActive == false) {
+		window.cancelAnimationFrame(RequestID);
+		return;
+	}
 	Mouse.Update();
 	var deltaTime = timer - startTimer;
 	for (var i = 0; i < 64; i++) {
@@ -339,13 +342,11 @@ function AStar(startPos, EndPos) {
 
 
 document.querySelector('#perlin-tab').addEventListener('shown.bs.tab', function (e) {
-	console.log("Show perlin");
+	TabActive = true;
 	RequestID = window.requestAnimationFrame(DrawGame);
 });
 document.querySelector('#perlin-tab').addEventListener('hide.bs.tab', function (e) {
-	console.log("Hide perlin");
-
-	window.cancelAnimationFrame(RequestID);
+	TabActive = false;
 });
 
 function CheckTile(openTiles, closedTiles, newTile, EndTile, currentTile) {
