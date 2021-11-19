@@ -186,6 +186,12 @@
     <Content Include="Content\Assets\img\Diglett\GameOver.png" />
     <Content Include="Content\Assets\img\Diglett\hole.png" />
     <Content Include="Content\Assets\img\Diglett\lives.png" />
+    <Content Include="Content\Assets\img\Diglett\mazeTileDown.png" />
+    <Content Include="Content\Assets\img\Diglett\mazeTileLeft.png" />
+    <Content Include="Content\Assets\img\Diglett\mazeTileLeftRight.png" />
+    <Content Include="Content\Assets\img\Diglett\mazeTileRight.png" />
+    <Content Include="Content\Assets\img\Diglett\mazeTileUp.png" />
+    <Content Include="Content\Assets\img\Diglett\mazeTileUpDown.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -213,6 +219,7 @@
     </None>
     <None Include="packages.config" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\Apps\Amazing.js" />
     <Content Include="Scripts\Apps\Virus.js" />
     <Content Include="Scripts\Classes\Car.js" />
     <Content Include="Scripts\Classes\Helpers.js" />

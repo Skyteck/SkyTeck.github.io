@@ -184,7 +184,7 @@ function InitPerlin(theme) {
 
 
 	console.log('tiles made');
-	//RequestID = window.requestAnimationFrame(DrawGame);
+	RequestID = window.requestAnimationFrame(DrawGame);
 }
 
 
@@ -202,7 +202,6 @@ function DrawGame(timer) {
 	var deltaTime = timer - startTimer;
 	for (var i = 0; i < 64; i++) {
 		for (var j = 0; j < 64; j++) {
-
 			Tiles[i][j].Draw();
 		}
 	}
@@ -217,7 +216,7 @@ function DrawGame(timer) {
 	startTimer = timer;
 
 
-		RequestID = window.requestAnimationFrame(DrawGame);
+	RequestID = window.requestAnimationFrame(DrawGame);
 };
 
 function getRandomInt(max) {
@@ -326,16 +325,18 @@ function AStar(startPos, EndPos) {
 	path.push(EndTile);
 	currentTile = EndTile.Closest;
 	var breakOut = false;
-	while (breakOut || currentTile.Pos.X != startPos.X || currentTile.Pos.Y != startPos.Y) {
-		path.push(currentTile);
-		if (currentTile.Closest == null) {
-			breakOut = true;
+	if (!breakOut) {
+		while (currentTile.Pos.X != startPos.X || currentTile.Pos.Y != startPos.Y) {
+			path.push(currentTile);
+			if (currentTile.Closest == null) {
+				break;
+			}
+			else {
+				currentTile = currentTile.Closest ?? Tiles[startPos.X][startPos.Y];
+			}
 		}
-		else {
-			currentTile = currentTile.Closest ?? Tiles[startPos.X][startPos.Y];
-		}
+    }
 
-	}
 
 	return path.reverse();
 }
