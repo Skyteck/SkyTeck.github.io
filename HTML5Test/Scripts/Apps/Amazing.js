@@ -39,6 +39,7 @@ function Tile(x, y, type) {
 	this.CameFrom = null;
 	this.prevCurrent = false;
 	this.CameFromDirection = null;
+	this.GoingToDirection = null;
 	Tile.prototype.Draw = function () {
 		if (this.type == 'water') {
 			ctx.fillStyle = 'rgb(0,0,' + 150 + ')';
@@ -75,7 +76,7 @@ function Tile(x, y, type) {
 }
 
 function InitAmazing(theme) {
-	hole.src = '/Content/Assets/img/' + theme + '/Fox.png';
+	hole.src = '/Content/Assets/img/' + theme + '/MazeTile.png';
 	for (let y = 0; y < GRID_SIZE; y += num_pixels / GRID_SIZE) {
 		for (let x = 0; x < GRID_SIZE; x += num_pixels / GRID_SIZE) {
 			let v = perlin.get(x, y);// * COLOR_SCALE;
@@ -149,15 +150,19 @@ function StepMaze() {
 		t.CameFrom = currentTile;
 		if (t.CameFrom.Pos.X > t.Pos.X) {//came from the right
 			t.CameFromDirection = 'right';
+			currentTile.GoingToDirection = 'left';
 		}
 		else if (t.CameFrom.Pos.X < t.Pos.X) {//came from the left
 			t.CameFromDirection = 'left';
+			currentTile.GoingToDirection = 'right';
 		}
 		if (t.CameFrom.Pos.Y > t.Pos.Y) {//came from the right
 			t.CameFromDirection = 'down';
+			currentTile.GoingToDirection = 'up';
 		}
 		else if (t.CameFrom.Pos.Y < t.Pos.Y) {//came from the left
 			t.CameFromDirection = 'up';
+			currentTile.GoingToDirection = 'up';
 		}
 		currentTile = t;
     }
