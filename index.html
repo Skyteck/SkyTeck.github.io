@@ -83,7 +83,7 @@
                     }
                     const rms = Math.sqrt(sum / input.length);
                     const db = 20 * Math.log10(rms);
-                    document.getElementById('volumeLevel').innerText = `Volume Level: ${db.toFixed(2)} dB`;
+                    document.getElementById('volumeLevel').innerText = `Volume Level: ${db.toFixed(2)*-1} dB`;
 
                     // Get the threshold from the input and negate it
                     const threshold = -parseFloat(document.getElementById('thresholdInput').value);
