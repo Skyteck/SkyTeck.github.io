@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Sky's fun projects</title>
+    <link href="/Content/bootstrap.css" rel="stylesheet"/>
+<link href="/Content/site.css" rel="stylesheet"/>
+
+    <script src="/Scripts/modernizr-2.8.3.js"></script>
+	<style type="text/css">
+		#outer {
+		  width:100%;
+		  display: flex;
+		  justify-content: center;
+		}
+		
+		#outerSCS {
+		  width:100%;
+		  display: flex;
+		  justify-content: center;
+		}
+    </style>
+
+</head>
+<body>
+    <div class="d-flex justify-content-center">
+
+        <canvas id="canvasString" width="640" tabindex=0 height="640"></canvas></br>
+    </div>
+    <input type="checkbox" id="cbGravity" />Gravity?<br />
+    <input type="text" id="txtGrav" value="0.2" />Gravity power?<br />
+    <input type="text" id="txtStrLength" value="10" />String Length?<br />
+    <input type="text" id="txtPullStr" value="1.25" />Pull strength?<br />
+    <br />
+    <br />
+    <div class="d-flex justify-content-center">
+
+        <canvas id="canvasWallpaper" width="640" tabindex=0 height="640"></canvas></br>
+    </div>
+
+
+</body>
+</html>
+<script src='https://git.io/perlin.js'></script>
+<script>
+    document.body.addEventListener("contextmenu", function (evt) { evt.preventDefault(); return false; });
+</script>
+<script type="module">
+    import InitCloth from "../Scripts/Clothtest.js";
+    import InitWallpaper from "../Scripts/Wallpaper.js";
+    InitCloth('Diglett');
+    InitWallpaper('Diglett');
+</script>

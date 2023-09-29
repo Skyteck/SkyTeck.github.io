@@ -1,2 +1,0 @@
-# SkyTeck.github.io
- 
