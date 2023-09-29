@@ -1,60 +1,72 @@
-﻿<!doctype html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <script src="~/Scripts/jquery-3.4.1.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="/Scripts/modernizr-2.8.3.js"></script>
-    <style type="text/css">
-        #outer {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-
-        #outerSCS {
-            width: 100%;
-            display: flex;
-            justify-content: center;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microphone Volume Level</title>
+    <style>
+        body {
+            background-color: black;
+            color: white; /* Set the text color to white for better readability */
         }
     </style>
-
-    <title> Sky's fun projects</title>
 </head>
 <body>
+    <h1>Microphone Volume Level</h1>
+    <button id="startButton">Start</button>
+    <div id="volumeLevel">Volume Level: Not Available</div>
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <label for="thresholdInput">Threshold (dB): </label>
+    <input type="number" id="thresholdInput" value="-40">
 
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="life-tab" data-bs-toggle="tab" data-bs-target="#life" type="button" role="tab" aria-controls="contact" aria-selected="false">Life</button>
-        </li>
+    <img id="volumeIndicator" src="" alt="Volume Indicator" style="width: 330px; height: 215px;">
 
-    </ul>
+    <script>
+        document.getElementById('startButton').addEventListener('click', async () => {
+            try {
+                // Request microphone access
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
+                // Create an audio context
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="life" role="tabpanel" aria-labelledby="life-tab">
-            <div class="d-flex justify-content-center">
-                <canvas id="canvasLife" width="640" tabindex=3 height="640"></canvas></br>
-            </div>
-            <script type="module">
-                import InitLife from "../Scripts/Apps/Life.js";
-                InitLife('Diglett');
-            </script>
-        </div>
-    </div>
+                // Create a media stream source
+                const source = audioContext.createMediaStreamSource(stream);
 
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+                // Create a script processor node for analyzing the audio data
+                const processor = audioContext.createScriptProcessor(2048, 1, 1);
 
+                // Connect the source to the processor, and the processor to the context's destination
+                source.connect(processor);
+                processor.connect(audioContext.destination);
+
+                // Calculate the volume level on audioprocess event
+                processor.onaudioprocess = (event) => {
+                    const input = event.inputBuffer.getChannelData(0);
+                    let sum = 0.0;
+                    for (let i = 0; i < input.length; ++i) {
+                        sum += input[i] * input[i];
+                    }
+                    const rms = Math.sqrt(sum / input.length);
+                    const db = 20 * Math.log10(rms);
+                    document.getElementById('volumeLevel').innerText = `Volume Level: ${db.toFixed(2)} dB`;
+
+                    // Get the threshold from the input
+                    const threshold = parseFloat(document.getElementById('thresholdInput').value);
+
+                    // Update the image based on the dB level
+                    const volumeIndicator = document.getElementById('volumeIndicator');
+                    if (db > threshold) {
+                        volumeIndicator.src = "/Content/Assets/img/Coy/feeshOpen.png";
+                    } else {
+                        volumeIndicator.src = "/Content/Assets/img/Coy/feesh.png";
+                    }
+                };
+
+            } catch (err) {
+                console.error('Error accessing the microphone: ', err);
+            }
+        });
+    </script>
 </body>
-@*<script src='https://git.io/perlin.js'></script>*@
-<script>
-    document.body.addEventListener("contextmenu", function (evt) { evt.preventDefault(); return false; });
-</script>
-
 </html>
