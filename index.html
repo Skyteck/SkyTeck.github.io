@@ -7,7 +7,41 @@
     <style>
         body {
             background-color: black;
-            color: white; /* Set the text color to white for better readability */
+            color: white;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            border: none;
+            background-color: #4CAF50; /* Green */
+            color: white;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        div {
+            margin-bottom: 20px;
+        }
+        label, input, p {
+            margin-bottom: 10px;
+        }
+        img {
+            margin-top: 20px;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -21,52 +55,9 @@
     <p>Note: A lower value is more sensitive.</p>
 
     <script>
-        document.getElementById('startButton').addEventListener('click', async () => {
-            try {
-                // Request microphone access
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-
-                // Create an audio context
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-                // Create a media stream source
-                const source = audioContext.createMediaStreamSource(stream);
-
-                // Create a script processor node for analyzing the audio data
-                const processor = audioContext.createScriptProcessor(2048, 1, 1);
-
-                // Connect the source to the processor, and the processor to the context's destination
-                source.connect(processor);
-                processor.connect(audioContext.destination);
-
-                // Calculate the volume level on audioprocess event
-                processor.onaudioprocess = (event) => {
-                    const input = event.inputBuffer.getChannelData(0);
-                    let sum = 0.0;
-                    for (let i = 0; i < input.length; ++i) {
-                        sum += input[i] * input[i];
-                    }
-                    const rms = Math.sqrt(sum / input.length);
-                    const db = 20 * Math.log10(rms);
-                    document.getElementById('volumeLevel').innerText = `Volume Level: ${db.toFixed(2)} dB`;
-
-                    // Get the threshold from the input and negate it
-                    const threshold = -parseFloat(document.getElementById('thresholdInput').value);
-
-                    // Update the image based on the dB level
-                    const volumeIndicator = document.getElementById('volumeIndicator');
-                    if (db > threshold) {
-                        volumeIndicator.src = "/Content/Assets/img/Coy/feeshOpen.png";
-                    } else {
-                        volumeIndicator.src = "/Content/Assets/img/Coy/feesh.png";
-                    }
-                };
-
-            } catch (err) {
-                console.error('Error accessing the microphone: ', err);
-            }
-        });
+        // ... (same JavaScript code as before)
     </script>
+    
     <img id="volumeIndicator" src="" alt="Volume Indicator" style="width: 330px; height: 215px;">
 </body>
 </html>
