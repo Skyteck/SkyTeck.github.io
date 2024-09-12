@@ -9,64 +9,147 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center mb-4">Best In Slot Gear Selector</h1>
-        <form id="gearForm">
-            <!-- Gear Slot Sections -->
-            <div class="form-group">
-                <label for="weapon">Weapon</label>
-                <div>
-                    <button type="button" class="btn btn-primary" onclick="selectGear('weapon', 'Raid')">Raid</button>
-                    <button type="button" class="btn btn-secondary" onclick="selectGear('weapon', 'Tome')">Tome</button>
-                    <button type="button" class="btn btn-info" onclick="selectGear('weapon', 'Other')">Other</button>
-                </div>
-                <p id="weapon-selection" class="mt-2"></p>
-            </div>
 
-            <div class="form-group">
-                <label for="head">Head</label>
-                <div>
-                    <button type="button" class="btn btn-primary" onclick="selectGear('head', 'Raid')">Raid</button>
-                    <button type="button" class="btn btn-secondary" onclick="selectGear('head', 'Tome')">Tome</button>
-                    <button type="button" class="btn btn-info" onclick="selectGear('head', 'Other')">Other</button>
-                </div>
-                <p id="head-selection" class="mt-2"></p>
-            </div>
+        <!-- Nav Tabs -->
+        <ul class="nav nav-tabs" id="gearTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="selector-tab" data-toggle="tab" href="#selector" role="tab" aria-controls="selector" aria-selected="true">Gear Selector</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="gearsets-tab" data-toggle="tab" href="#gearsets" role="tab" aria-controls="gearsets" aria-selected="false">Submitted Gearsets</a>
+            </li>
+        </ul>
 
-            <div class="form-group">
-                <label for="body">Body</label>
-                <div>
-                    <button type="button" class="btn btn-primary" onclick="selectGear('body', 'Raid')">Raid</button>
-                    <button type="button" class="btn btn-secondary" onclick="selectGear('body', 'Tome')">Tome</button>
-                    <button type="button" class="btn btn-info" onclick="selectGear('body', 'Other')">Other</button>
-                </div>
-                <p id="body-selection" class="mt-2"></p>
-            </div>
+        <!-- Tab Content -->
+        <div class="tab-content" id="gearTabsContent">
+            <!-- Gear Selector Tab -->
+            <div class="tab-pane fade show active" id="selector" role="tabpanel" aria-labelledby="selector-tab">
+                <form id="gearForm">
+                    <!-- Gear Slot Sections -->
+                    <div class="form-group">
+                        <label for="weapon">Weapon</label>
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="selectGear('weapon', 'Raid')">Raid</button>
+                            <button type="button" class="btn btn-secondary" onclick="selectGear('weapon', 'Tome')">Tome</button>
+                            <button type="button" class="btn btn-info" onclick="selectGear('weapon', 'Other')">Other</button>
+                        </div>
+                        <p id="weapon-selection" class="mt-2"></p>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="head">Head</label>
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="selectGear('head', 'Raid')">Raid</button>
+                            <button type="button" class="btn btn-secondary" onclick="selectGear('head', 'Tome')">Tome</button>
+                            <button type="button" class="btn btn-info" onclick="selectGear('head', 'Other')">Other</button>
+                        </div>
+                        <p id="head-selection" class="mt-2"></p>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="body">Body</label>
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="selectGear('body', 'Raid')">Raid</button>
+                            <button type="button" class="btn btn-secondary" onclick="selectGear('body', 'Tome')">Tome</button>
+                            <button type="button" class="btn btn-info" onclick="selectGear('body', 'Other')">Other</button>
+                        </div>
+                        <p id="body-selection" class="mt-2"></p>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="Hands">Legs</label>
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="selectGear('hands', 'Raid')">Raid</button>
+                            <button type="button" class="btn btn-secondary" onclick="selectGear('hands', 'Tome')">Tome</button>
+                            <button type="button" class="btn btn-info" onclick="selectGear('hands', 'Other')">Other</button>
+                        </div>
+                        <p id="hands-selection" class="mt-2"></p>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="legs">Legs</label>
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="selectGear('legs', 'Raid')">Raid</button>
+                            <button type="button" class="btn btn-secondary" onclick="selectGear('legs', 'Tome')">Tome</button>
+                            <button type="button" class="btn btn-info" onclick="selectGear('legs', 'Other')">Other</button>
+                        </div>
+                        <p id="legs-selection" class="mt-2"></p>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="feet">Feet</label>
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="selectGear('feet', 'Raid')">Raid</button>
+                            <button type="button" class="btn btn-secondary" onclick="selectGear('feet', 'Tome')">Tome</button>
+                            <button type="button" class="btn btn-info" onclick="selectGear('feet', 'Other')">Other</button>
+                        </div>
+                        <p id="feet-selection" class="mt-2"></p>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="Ear ring">Legs</label>
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="selectGear('ear', 'Raid')">Raid</button>
+                            <button type="button" class="btn btn-secondary" onclick="selectGear('ear', 'Tome')">Tome</button>
+                            <button type="button" class="btn btn-info" onclick="selectGear('ear', 'Other')">Other</button>
+                        </div>
+                        <p id="ear-selection" class="mt-2"></p>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="Necklace">Legs</label>
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="selectGear('neck', 'Raid')">Raid</button>
+                            <button type="button" class="btn btn-secondary" onclick="selectGear('neck', 'Tome')">Tome</button>
+                            <button type="button" class="btn btn-info" onclick="selectGear('neck', 'Other')">Other</button>
+                        </div>
+                        <p id="neck-selection" class="mt-2"></p>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="Bracelet">Legs</label>
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="selectGear('wrist', 'Raid')">Raid</button>
+                            <button type="button" class="btn btn-secondary" onclick="selectGear('wrist', 'Tome')">Tome</button>
+                            <button type="button" class="btn btn-info" onclick="selectGear('wrist', 'Other')">Other</button>
+                        </div>
+                        <p id="wrist-selection" class="mt-2"></p>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="Top Ring">Legs</label>
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="selectGear('TopRing', 'Raid')">Raid</button>
+                            <button type="button" class="btn btn-secondary" onclick="selectGear('TopRing', 'Tome')">Tome</button>
+                            <button type="button" class="btn btn-info" onclick="selectGear('TopRing', 'Other')">Other</button>
+                        </div>
+                        <p id="TopRing-selection" class="mt-2"></p>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="Bottom Ring">Legs</label>
+                        <div>
+                            <button type="button" class="btn btn-primary" onclick="selectGear('BottomRing', 'Raid')">Raid</button>
+                            <button type="button" class="btn btn-secondary" onclick="selectGear('BottomRing', 'Tome')">Tome</button>
+                            <button type="button" class="btn btn-info" onclick="selectGear('BottomRing', 'Other')">Other</button>
+                        </div>
+                        <p id="BottomRing-selection" class="mt-2"></p>
+                    </div>
+        
+                    <div class="form-group text-center">
+                        <button type="button" class="btn btn-success" onclick="submitForm()">Submit</button>
+                    </div>
+                </form>
+                    </div>
 
-            <!-- Add other gear slots as needed, like Hands, Legs, Feet, etc. -->
-
-            <div class="form-group">
-                <label for="legs">Legs</label>
-                <div>
-                    <button type="button" class="btn btn-primary" onclick="selectGear('legs', 'Raid')">Raid</button>
-                    <button type="button" class="btn btn-secondary" onclick="selectGear('legs', 'Tome')">Tome</button>
-                    <button type="button" class="btn btn-info" onclick="selectGear('legs', 'Other')">Other</button>
-                </div>
-                <p id="legs-selection" class="mt-2"></p>
+            <!-- Submitted Gearsets Tab -->
+            <div class="tab-pane fade" id="gearsets" role="tabpanel" aria-labelledby="gearsets-tab">
+                <h3 class="mt-4">Submitted Gearsets</h3>
+                <ul id="gearsetList" class="list-group">
+                    <!-- Submitted gearsets will be appended here -->
+                </ul>
             </div>
-
-            <div class="form-group">
-                <label for="feet">Feet</label>
-                <div>
-                    <button type="button" class="btn btn-primary" onclick="selectGear('feet', 'Raid')">Raid</button>
-                    <button type="button" class="btn btn-secondary" onclick="selectGear('feet', 'Tome')">Tome</button>
-                    <button type="button" class="btn btn-info" onclick="selectGear('feet', 'Other')">Other</button>
-                </div>
-                <p id="feet-selection" class="mt-2"></p>
-            </div>
-
-            <div class="form-group text-center">
-                <button type="button" class="btn btn-success" onclick="submitForm()">Submit</button>
-            </div>
-        </form>
+        </div>
     </div>
 
     <script>
@@ -75,9 +158,9 @@
             document.getElementById(slot + '-selection').innerHTML = "Selected: " + selection;
         }
 
-        // Function to handle form submission
+        // Function to submit the form and store data in localStorage
         function submitForm() {
-            const slots = ['weapon', 'head', 'body', 'legs', 'feet']; // Add all slot IDs
+            const slots = ['weapon', 'hands']; // Add all slot IDs here
             const selections = {};
 
             slots.forEach(slot => {
@@ -85,9 +168,38 @@
                 selections[slot] = selectionText.replace('Selected: ', '') || 'None';
             });
 
-            console.log('Gear Selections:', selections);
-            alert('Form submitted! Check the console for gear selections.');
+            // Get the current gearsets from localStorage
+            let gearsets = JSON.parse(localStorage.getItem('gearsets')) || [];
+
+            // Add the new gearset
+            gearsets.push(selections);
+
+            // Save back to localStorage
+            localStorage.setItem('gearsets', JSON.stringify(gearsets));
+
+            // Update the gearset list
+            displayGearsets();
         }
+
+        // Function to display submitted gearsets
+        function displayGearsets() {
+            const gearsetList = document.getElementById('gearsetList');
+            gearsetList.innerHTML = ''; // Clear the current list
+
+            // Get the gearsets from localStorage
+            const gearsets = JSON.parse(localStorage.getItem('gearsets')) || [];
+
+            // Append each gearset to the list
+            gearsets.forEach((gearset, index) => {
+                const li = document.createElement('li');
+                li.classList.add('list-group-item');
+                li.textContent = `Gearset ${index + 1}: ` + JSON.stringify(gearset);
+                gearsetList.appendChild(li);
+            });
+        }
+
+        // Display gearsets when the page loads
+        document.addEventListener('DOMContentLoaded', displayGearsets);
     </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
