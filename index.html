@@ -213,7 +213,7 @@
         }
 
 
-// Function to display submitted gearsets
+        // Function to display submitted gearsets
         function displayGearsets() {
             const gearsetList = document.getElementById('gearsetList');
             gearsetList.innerHTML = ''; // Clear the current list
@@ -237,9 +237,17 @@
                 cardTitle.classList.add('card-title');
                 cardTitle.textContent = `Gearset ${index + 1}`;
 
-                const pre = document.createElement('pre');
-                pre.classList.add('card-text');
-                pre.textContent = JSON.stringify(gearset, null, 2); // Pretty print JSON
+                // Create a div to hold the formatted gearset
+                const gearsetDisplay = document.createElement('div');
+                gearsetDisplay.classList.add('card-text');
+                let formattedGearset = '';
+
+                // Format the gearset with each slot on a new line
+                Object.keys(gearset).forEach(slot => {
+                    formattedGearset += `${capitalize(slot)}: ${gearset[slot]}<br>`;
+                });
+
+                gearsetDisplay.innerHTML = formattedGearset;
 
                 // Create a delete button for this gearset
                 const deleteBtn = document.createElement('button');
@@ -251,7 +259,7 @@
 
                 // Append elements together
                 cardBody.appendChild(cardTitle);
-                cardBody.appendChild(pre);
+                cardBody.appendChild(gearsetDisplay);
                 cardBody.appendChild(deleteBtn);
                 card.appendChild(cardBody);
                 li.appendChild(card);
@@ -260,6 +268,12 @@
                 gearsetList.appendChild(li);
             });
         }
+
+        // Helper function to capitalize the first letter of the slot names
+        function capitalize(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
 
 
         // Display gearsets when the page loads
