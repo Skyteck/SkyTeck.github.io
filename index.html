@@ -3,105 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microphone Volume Level</title>
-    <style>
-        body {
-            background-color: black;
-            color: white;
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-        h1 {
-            margin-bottom: 20px;
-        }
-        button {
-            padding: 10px 20px;
-            margin-bottom: 20px;
-            cursor: pointer;
-            border: none;
-            background-color: #4CAF50; /* Green */
-            color: white;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        div {
-            margin-bottom: 20px;
-        }
-        label, input, p {
-            margin-bottom: 10px;
-        }
-        img {
-            margin-top: 20px;
-            border-radius: 10px;
-        }
-    </style>
+    <title>Best In Slot Gear Selector</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Talking fish for Twitch.tv/Coy_Stream</h1>
-    <button id="startButton">Start</button>
-    <div id="volumeLevel">Volume Level: Not Available</div>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Best In Slot Gear Selector</h1>
+        <form id="gearForm">
+            <!-- Gear Slot Sections -->
+            <div class="form-group">
+                <label for="weapon">Weapon</label>
+                <div>
+                    <button type="button" class="btn btn-primary" onclick="selectGear('weapon', 'Raid')">Raid</button>
+                    <button type="button" class="btn btn-secondary" onclick="selectGear('weapon', 'Tome')">Tome</button>
+                    <button type="button" class="btn btn-info" onclick="selectGear('weapon', 'Other')">Other</button>
+                </div>
+                <p id="weapon-selection" class="mt-2"></p>
+            </div>
 
-    <label for="thresholdInput">Threshold (dB): </label>
-    <input type="number" id="thresholdInput" value="40">
-    <p>Note: A lower value is more sensitive.</p>
-    <img id="volumeIndicator" src="" alt="Fish will show hear after started!" style="width: 330px; height: 215px;">
+            <div class="form-group">
+                <label for="head">Head</label>
+                <div>
+                    <button type="button" class="btn btn-primary" onclick="selectGear('head', 'Raid')">Raid</button>
+                    <button type="button" class="btn btn-secondary" onclick="selectGear('head', 'Tome')">Tome</button>
+                    <button type="button" class="btn btn-info" onclick="selectGear('head', 'Other')">Other</button>
+                </div>
+                <p id="head-selection" class="mt-2"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="body">Body</label>
+                <div>
+                    <button type="button" class="btn btn-primary" onclick="selectGear('body', 'Raid')">Raid</button>
+                    <button type="button" class="btn btn-secondary" onclick="selectGear('body', 'Tome')">Tome</button>
+                    <button type="button" class="btn btn-info" onclick="selectGear('body', 'Other')">Other</button>
+                </div>
+                <p id="body-selection" class="mt-2"></p>
+            </div>
+
+            <!-- Add other gear slots as needed, like Hands, Legs, Feet, etc. -->
+
+            <div class="form-group">
+                <label for="legs">Legs</label>
+                <div>
+                    <button type="button" class="btn btn-primary" onclick="selectGear('legs', 'Raid')">Raid</button>
+                    <button type="button" class="btn btn-secondary" onclick="selectGear('legs', 'Tome')">Tome</button>
+                    <button type="button" class="btn btn-info" onclick="selectGear('legs', 'Other')">Other</button>
+                </div>
+                <p id="legs-selection" class="mt-2"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="feet">Feet</label>
+                <div>
+                    <button type="button" class="btn btn-primary" onclick="selectGear('feet', 'Raid')">Raid</button>
+                    <button type="button" class="btn btn-secondary" onclick="selectGear('feet', 'Tome')">Tome</button>
+                    <button type="button" class="btn btn-info" onclick="selectGear('feet', 'Other')">Other</button>
+                </div>
+                <p id="feet-selection" class="mt-2"></p>
+            </div>
+
+            <div class="form-group text-center">
+                <button type="button" class="btn btn-success" onclick="submitForm()">Submit</button>
+            </div>
+        </form>
+    </div>
 
     <script>
-        document.getElementById('startButton').addEventListener('click', async () => {
-            try {
-                // Request microphone access
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        // Function to update the selected gear for each slot
+        function selectGear(slot, selection) {
+            document.getElementById(slot + '-selection').innerHTML = "Selected: " + selection;
+        }
 
-                // Create an audio context
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        // Function to handle form submission
+        function submitForm() {
+            const slots = ['weapon', 'head', 'body', 'legs', 'feet']; // Add all slot IDs
+            const selections = {};
 
-                // Create a media stream source
-                const source = audioContext.createMediaStreamSource(stream);
+            slots.forEach(slot => {
+                const selectionText = document.getElementById(slot + '-selection').innerText;
+                selections[slot] = selectionText.replace('Selected: ', '') || 'None';
+            });
 
-                // Create a script processor node for analyzing the audio data
-                const processor = audioContext.createScriptProcessor(2048, 1, 1);
-
-                // Connect the source to the processor, and the processor to the context's destination
-                source.connect(processor);
-                processor.connect(audioContext.destination);
-
-                // Calculate the volume level on audioprocess event
-                processor.onaudioprocess = (event) => {
-                    const input = event.inputBuffer.getChannelData(0);
-                    let sum = 0.0;
-                    for (let i = 0; i < input.length; ++i) {
-                        sum += input[i] * input[i];
-                    }
-                    const rms = Math.sqrt(sum / input.length);
-                    const db = 20 * Math.log10(rms);
-                    document.getElementById('volumeLevel').innerText = `Volume Level: ${db.toFixed(2)*-1} dB`;
-
-                    // Get the threshold from the input and negate it
-                    const threshold = -parseFloat(document.getElementById('thresholdInput').value);
-
-                    // Update the image based on the dB level
-                    const volumeIndicator = document.getElementById('volumeIndicator');
-                    if (db > threshold) {
-                        volumeIndicator.src = "/Content/Assets/img/Coy/feeshOpen.png";
-                    } else {
-                        volumeIndicator.src = "/Content/Assets/img/Coy/feesh.png";
-                    }
-                };
-
-            } catch (err) {
-                console.error('Error accessing the microphone: ', err);
-            }
-        });
+            console.log('Gear Selections:', selections);
+            alert('Form submitted! Check the console for gear selections.');
+        }
     </script>
-    
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
