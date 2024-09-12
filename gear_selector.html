@@ -1,0 +1,154 @@
+<form id="gearForm">
+    <!-- Gear Slot Sections -->
+    <div class="form-group">
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control" id="firstName" placeholder="Enter your first name">
+        </div>
+    
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control" id="lastName" placeholder="Enter your last name">
+        </div>
+    
+        <div class="form-group">
+            <label for="job">Job</label>
+            <select class="form-control" id="job">
+                <option value="PLD">PLD</option>
+                <option value="WAR">WAR</option>
+                <option value="DRK">DRK</option>
+                <option value="GNB">GNB</option>
+                <option value="WHM">WHM</option>
+                <option value="SCH">SCH</option>
+                <option value="AST">AST</option>
+                <option value="SGE">SGE</option>
+                <option value="MNK">MNK</option>
+                <option value="DRG">DRG</option>
+                <option value="NIN">NIN</option>
+                <option value="SAM">SAM</option>
+                <option value="RPR">RPR</option>
+                <option value="VIP">VIP</option>
+                <option value="BRD">BRD</option>
+                <option value="MCH">MCH</option>
+                <option value="DNC">DNC</option>
+                <option value="BLM">BLM</option>
+                <option value="SMN">SMN</option>
+                <option value="RDM">RDM</option>
+                <option value="PCT">PCT</option>
+            </select>
+        </div>
+
+
+        <label for="weapon">Weapon</label>
+        <div>
+            <button type="button" class="btn btn-primary" onclick="selectGear('weapon', 'Raid')">Raid</button>
+            <button type="button" class="btn btn-secondary" onclick="selectGear('weapon', 'Tome')">Tome</button>
+            <button type="button" class="btn btn-info" onclick="selectGear('weapon', 'Other')">Other</button>
+        </div>
+        <p id="weapon-selection" class="mt-2"></p>
+    </div>
+
+    <div class="form-group">
+        <label for="head">Head</label>
+        <div>
+            <button type="button" class="btn btn-primary" onclick="selectGear('head', 'Raid')">Raid</button>
+            <button type="button" class="btn btn-secondary" onclick="selectGear('head', 'Tome')">Tome</button>
+            <button type="button" class="btn btn-info" onclick="selectGear('head', 'Other')">Other</button>
+        </div>
+        <p id="head-selection" class="mt-2"></p>
+    </div>
+
+    <div class="form-group">
+        <label for="body">Body</label>
+        <div>
+            <button type="button" class="btn btn-primary" onclick="selectGear('body', 'Raid')">Raid</button>
+            <button type="button" class="btn btn-secondary" onclick="selectGear('body', 'Tome')">Tome</button>
+            <button type="button" class="btn btn-info" onclick="selectGear('body', 'Other')">Other</button>
+        </div>
+        <p id="body-selection" class="mt-2"></p>
+    </div>
+
+    <div class="form-group">
+        <label for="Hands">Hands</label>
+        <div>
+            <button type="button" class="btn btn-primary" onclick="selectGear('hands', 'Raid')">Raid</button>
+            <button type="button" class="btn btn-secondary" onclick="selectGear('hands', 'Tome')">Tome</button>
+            <button type="button" class="btn btn-info" onclick="selectGear('hands', 'Other')">Other</button>
+        </div>
+        <p id="hands-selection" class="mt-2"></p>
+    </div>
+
+    <div class="form-group">
+        <label for="legs">Legs</label>
+        <div>
+            <button type="button" class="btn btn-primary" onclick="selectGear('legs', 'Raid')">Raid</button>
+            <button type="button" class="btn btn-secondary" onclick="selectGear('legs', 'Tome')">Tome</button>
+            <button type="button" class="btn btn-info" onclick="selectGear('legs', 'Other')">Other</button>
+        </div>
+        <p id="legs-selection" class="mt-2"></p>
+    </div>
+
+    <div class="form-group">
+        <label for="feet">Feet</label>
+        <div>
+            <button type="button" class="btn btn-primary" onclick="selectGear('feet', 'Raid')">Raid</button>
+            <button type="button" class="btn btn-secondary" onclick="selectGear('feet', 'Tome')">Tome</button>
+            <button type="button" class="btn btn-info" onclick="selectGear('feet', 'Other')">Other</button>
+        </div>
+        <p id="feet-selection" class="mt-2"></p>
+    </div>
+
+    <div class="form-group">
+        <label for="Ear ring">Ears</label>
+        <div>
+            <button type="button" class="btn btn-primary" onclick="selectGear('ear', 'Raid')">Raid</button>
+            <button type="button" class="btn btn-secondary" onclick="selectGear('ear', 'Tome')">Tome</button>
+            <button type="button" class="btn btn-info" onclick="selectGear('ear', 'Other')">Other</button>
+        </div>
+        <p id="ear-selection" class="mt-2"></p>
+    </div>
+
+    <div class="form-group">
+        <label for="Necklace">Necklace</label>
+        <div>
+            <button type="button" class="btn btn-primary" onclick="selectGear('neck', 'Raid')">Raid</button>
+            <button type="button" class="btn btn-secondary" onclick="selectGear('neck', 'Tome')">Tome</button>
+            <button type="button" class="btn btn-info" onclick="selectGear('neck', 'Other')">Other</button>
+        </div>
+        <p id="neck-selection" class="mt-2"></p>
+    </div>
+
+    <div class="form-group">
+        <label for="Bracelet">Bracelet</label>
+        <div>
+            <button type="button" class="btn btn-primary" onclick="selectGear('wrist', 'Raid')">Raid</button>
+            <button type="button" class="btn btn-secondary" onclick="selectGear('wrist', 'Tome')">Tome</button>
+            <button type="button" class="btn btn-info" onclick="selectGear('wrist', 'Other')">Other</button>
+        </div>
+        <p id="wrist-selection" class="mt-2"></p>
+    </div>
+
+    <div class="form-group">
+        <label for="Top Ring">Ring 1</label>
+        <div>
+            <button type="button" class="btn btn-primary" onclick="selectGear('TopRing', 'Raid')">Raid</button>
+            <button type="button" class="btn btn-secondary" onclick="selectGear('TopRing', 'Tome')">Tome</button>
+            <button type="button" class="btn btn-info" onclick="selectGear('TopRing', 'Other')">Other</button>
+        </div>
+        <p id="TopRing-selection" class="mt-2"></p>
+    </div>
+
+    <div class="form-group">
+        <label for="Bottom Ring">Ring 2</label>
+        <div>
+            <button type="button" class="btn btn-primary" onclick="selectGear('BottomRing', 'Raid')">Raid</button>
+            <button type="button" class="btn btn-secondary" onclick="selectGear('BottomRing', 'Tome')">Tome</button>
+            <button type="button" class="btn btn-info" onclick="selectGear('BottomRing', 'Other')">Other</button>
+        </div>
+        <p id="BottomRing-selection" class="mt-2"></p>
+    </div>
+
+    <div class="form-group text-center">
+        <button type="button" class="btn btn-success" onclick="submitForm()">Submit</button>
+    </div>
+</form>
