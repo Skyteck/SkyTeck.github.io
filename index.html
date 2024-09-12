@@ -1,11 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Best In Slot Gear Selector</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Best In Slot Gear Selector</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            pre {
+                background-color: #f8f9fa; /* Light grey background */
+                padding: 15px;
+                border-radius: 5px;
+                white-space: pre-wrap; /* Allow wrapping */
+                word-wrap: break-word; /* Ensure long strings break */
+                overflow-x: auto; /* Handle overflow */
+                font-size: 0.9rem; /* Slightly smaller text */
+            }
+    
+            .card-text {
+                font-family: "Courier New", Courier, monospace; /* Use monospaced font */
+            }
+        </style>
+    </head>
+    
 <body>
     <div class="container mt-5">
         <h1 class="text-center mb-4">Best In Slot Gear Selector</h1>
@@ -197,7 +213,7 @@
         }
 
 
-        // Function to display submitted gearsets
+// Function to display submitted gearsets
         function displayGearsets() {
             const gearsetList = document.getElementById('gearsetList');
             gearsetList.innerHTML = ''; // Clear the current list
@@ -208,10 +224,22 @@
             // Append each gearset to the list
             gearsets.forEach((gearset, index) => {
                 const li = document.createElement('li');
-                li.classList.add('list-group-item');
+                li.classList.add('list-group-item', 'mb-3');
 
-                // Display the gearset as a string
-                li.textContent = `Gearset ${index + 1}: ` + JSON.stringify(gearset);
+                // Create a Bootstrap card for each gearset
+                const card = document.createElement('div');
+                card.classList.add('card');
+
+                const cardBody = document.createElement('div');
+                cardBody.classList.add('card-body');
+
+                const cardTitle = document.createElement('h5');
+                cardTitle.classList.add('card-title');
+                cardTitle.textContent = `Gearset ${index + 1}`;
+
+                const pre = document.createElement('pre');
+                pre.classList.add('card-text');
+                pre.textContent = JSON.stringify(gearset, null, 2); // Pretty print JSON
 
                 // Create a delete button for this gearset
                 const deleteBtn = document.createElement('button');
@@ -221,13 +249,18 @@
                     deleteGearset(index);
                 };
 
-                // Append the delete button to the list item
-                li.appendChild(deleteBtn);
+                // Append elements together
+                cardBody.appendChild(cardTitle);
+                cardBody.appendChild(pre);
+                cardBody.appendChild(deleteBtn);
+                card.appendChild(cardBody);
+                li.appendChild(card);
 
                 // Append the list item to the gearset list
                 gearsetList.appendChild(li);
             });
         }
+
 
         // Display gearsets when the page loads
         document.addEventListener('DOMContentLoaded', displayGearsets);
