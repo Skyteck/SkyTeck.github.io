@@ -160,7 +160,7 @@
 
         // Function to submit the form and store data in localStorage
         function submitForm() {
-            const slots = ['weapon', 'hands']; // Add all slot IDs here
+            const slots = ['weapon', 'head', 'body', 'hands', 'legs', 'feet', 'ear', 'neck', 'wrist', 'TopRing', 'BottomRing']; // All slot IDs
             const selections = {};
 
             slots.forEach(slot => {
@@ -181,6 +181,22 @@
             displayGearsets();
         }
 
+        // Function to delete a gearset by index
+        function deleteGearset(index) {
+            // Get the current gearsets from localStorage
+            let gearsets = JSON.parse(localStorage.getItem('gearsets')) || [];
+
+            // Remove the gearset at the specified index
+            gearsets.splice(index, 1);
+
+            // Save the updated gearsets array back to localStorage
+            localStorage.setItem('gearsets', JSON.stringify(gearsets));
+
+            // Update the gearset list display
+            displayGearsets();
+        }
+
+
         // Function to display submitted gearsets
         function displayGearsets() {
             const gearsetList = document.getElementById('gearsetList');
@@ -193,7 +209,22 @@
             gearsets.forEach((gearset, index) => {
                 const li = document.createElement('li');
                 li.classList.add('list-group-item');
+
+                // Display the gearset as a string
                 li.textContent = `Gearset ${index + 1}: ` + JSON.stringify(gearset);
+
+                // Create a delete button for this gearset
+                const deleteBtn = document.createElement('button');
+                deleteBtn.classList.add('btn', 'btn-danger', 'btn-sm', 'ml-2');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.onclick = function() {
+                    deleteGearset(index);
+                };
+
+                // Append the delete button to the list item
+                li.appendChild(deleteBtn);
+
+                // Append the list item to the gearset list
                 gearsetList.appendChild(li);
             });
         }
