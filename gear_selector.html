@@ -2,13 +2,8 @@
     <!-- Gear Slot Sections -->
     <div class="form-group">
         <div class="form-group">
-            <label for="firstName">First Name</label>
-            <input type="text" class="form-control" id="firstName" placeholder="Enter your first name">
-        </div>
-    
-        <div class="form-group">
-            <label for="lastName">Last Name</label>
-            <input type="text" class="form-control" id="lastName" placeholder="Enter your last name">
+            <label for="firstName">Name</label>
+            <input type="text" class="form-control" id="firstName" placeholder="Name">
         </div>
     
         <div class="form-group">
@@ -69,14 +64,14 @@
         
                 <!-- Chest -->
                 <div class="form-group row">
-                    <label for="body" class="col-sm-3 col-form-label">Chest</label>
+                    <label for="chest" class="col-sm-3 col-form-label">Chest</label>
                     <div class="col-sm-9">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-primary" onclick="selectGear('body', 'Raid')">Raid</button>
-                            <button type="button" class="btn btn-secondary" onclick="selectGear('body', 'Tome')">Tome</button>
-                            <button type="button" class="btn btn-info" onclick="selectGear('body', 'Other')">Other</button>
+                            <button type="button" class="btn btn-primary" onclick="selectGear('chest', 'Raid')">Raid</button>
+                            <button type="button" class="btn btn-secondary" onclick="selectGear('chest', 'Tome')">Tome</button>
+                            <button type="button" class="btn btn-info" onclick="selectGear('chest', 'Other')">Other</button>
                         </div>
-                        <p id="body-selection" class="mt-2"></p>
+                        <p id="chest-selection" class="mt-2"></p>
                     </div>
                 </div>
         
@@ -193,9 +188,4 @@
         <div class="form-group text-center">
             <button type="button" class="btn btn-success" onclick="submitForm()">Submit Gearset</button>
         </div>
-        
-
-<div class="form-group text-center">
-    <button type="button" class="btn btn-success" onclick="submitForm()">Submit Gearset</button>
-</div>
 </form>

@@ -30,6 +30,9 @@
             <ul class="nav nav-tabs" id="gearTabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="selector-tab" href="#" role="tab" onclick="loadTab('gear_selector.html')">Gear Selector</a>
+                </li>                
+                <li class="nav-item">
+                    <a class="nav-link" id="currentGear-tab" href="#" role="tab" onclick="loadTab('current_gear.html')">Current Gear</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="gearsets-tab" href="#" role="tab" onclick="loadTab('submitted_gearsets.html')">Submitted Gearsets</a>
@@ -42,7 +45,14 @@
             </div>
         </div>
     
+        <script src="https://unpkg.com/@supabase/supabase-js"></script>
+
+        <!-- Initialize Supabase client -->
         <script>
+            const supabaseUrl = 'https://xyexgokteqdrfeayvqvm.supabase.co';
+            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh5ZXhnb2t0ZXFkcmZlYXl2cXZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYyNDc3MDAsImV4cCI6MjA0MTgyMzcwMH0.jHSn7o93JVA0xU90oDoj-1svYZ0QsObCeFOOYZTKFHQ'; // Replace with your actual anon key
+            const supabaseClient  = supabase.createClient(supabaseUrl, supabaseKey);
+
             // Function to dynamically load HTML content for each tab
             function loadTab(file) {
                 fetch(file)
@@ -57,115 +67,202 @@
                     })
                     .catch(err => console.error('Error loading tab content:', err));
             }
-    
+
             // Function to submit the form and store data in localStorage
-            function submitForm() {
-                const slots = ['weapon', 'head', 'body', 'hands', 'legs', 'feet', 'ear', 'neck', 'wrist', 'TopRing', 'BottomRing']; // All slot IDs
-                const selections = {};
-    
-                // Collect gear selections
-                slots.forEach(slot => {
-                    const selectionText = document.getElementById(slot + '-selection').innerText;
-                    selections[slot] = selectionText.replace('Selected: ', '') || 'None';
-                });
-    
+            async function submitForm() {
                 // Collect personal information
                 const firstName = document.getElementById('firstName').value;
-                const lastName = document.getElementById('lastName').value;
                 const job = document.getElementById('job').value;
-    
-                // Combine gear selections and personal info
+                const tierID = 1; //document.getElementById('TierID').value;
+
+                // Simple validation
+                if (!firstName || !job || !tierID) {
+                    alert('Please enter your name, select a job, and enter a Tier ID.');
+                    return;
+                }
+
+                // Collect gear selections
+                const gearSlots = ['weapon', 'head', 'chest', 'hands', 'legs', 'feet', 'ear', 'neck', 'wrist', 'TopRing', 'BottomRing'];
+                const gearData = {};
+
+                gearSlots.forEach(slot => {
+                const selectionElement = document.getElementById(slot + '-selection');
+                const selectionText = selectionElement ? selectionElement.innerText : 'Selected: None';
+                const selectionValue = selectionText.replace('Selected: ', '') || 'None';
+
+                let numericValue;
+                switch (selectionValue) {
+                    case 'Raid':
+                        numericValue = 0;
+                        break;
+                    case 'Tome':
+                        numericValue = 1;
+                        break;
+                    case 'Other':
+                        numericValue = 2;
+                        break;
+                    default:
+                        numericValue = null; // none chosen
+                }
+
+                gearData[slot] = numericValue;
+            });
+
+
+                // Combine all data into one object matching your database schema
                 const gearset = {
-                    firstName: firstName,
-                    lastName: lastName,
-                    job: job,
-                    selections: selections
+                    Name: firstName,
+                    Job: job,
+                    TierID: tierID,
+                    weapon: gearData.weapon,
+                    head: gearData.head,
+                    chest: gearData.chest,
+                    hands: gearData.hands,
+                    legs: gearData.legs,
+                    feet: gearData.feet,
+                    ear: gearData.ear,
+                    neck: gearData.neck,
+                    wrist: gearData.wrist,
+                    ring1: gearData.ring1,
+                    ring2: gearData.ring2
                 };
-    
-                // Get the current gearsets from localStorage
-                let gearsets = JSON.parse(localStorage.getItem('gearsets')) || [];
-    
-                // Add the new gearset
-                gearsets.push(gearset);
-    
-                // Save back to localStorage
-                localStorage.setItem('gearsets', JSON.stringify(gearsets));
-    
-                // Show the new gearset in the list
-                displayGearsets();
+
+                // Save to Supabase
+                const { data, error } = await supabaseClient
+                    .from('Gearsets')
+                    .insert({Name: firstName,
+                             Job: job,
+                             TierID: tierID,
+                             Weapon: gearData.weapon,
+                             Head: gearData.head,
+                             Chest: gearData.chest,
+                             Hands: gearData.hands,
+                             Legs: gearData.legs,
+                             Feet: gearData.feet,
+                             Ears: gearData.ear,
+                             Neck: gearData.neck,
+                             Wrist: gearData.wrist,
+                             Ring1: gearData.TopRing,
+                             Ring2: gearData.BottomRing
+                             });
+
+
+                if (error) {
+                    console.error('Error inserting data:', error);
+                    alert('There was an error submitting your gearset.');
+                } else {
+                    alert('Gearset submitted successfully!');
+                    // Reset the form
+                    document.getElementById('gearForm').reset();
+                    gearSlots.forEach(slot => {
+                        const selectionElement = document.getElementById(slot + '-selection');
+                        if (selectionElement) selectionElement.innerText = '';
+                    });
+                    // Navigate to the "Submitted Gearsets" tab
+                    loadTab('submitted_gearsets.html');
+                }
             }
+
     
+            function selectGear(slot, type) {
+                document.getElementById(slot + '-selection').innerText = `Selected: ${type}`;
+            }
+
             // Function to display submitted gearsets
-            function displayGearsets() {
+            async function displayGearsets() {
                 const gearsetList = document.getElementById('gearsetList');
-                if (!gearsetList) return; // Prevent errors if gearsetList doesn't exist
-                gearsetList.innerHTML = ''; // Clear the current list
-    
-                // Get the gearsets from localStorage
-                const gearsets = JSON.parse(localStorage.getItem('gearsets')) || [];
-    
+                if (!gearsetList) return;
+                gearsetList.innerHTML = '';
+
+                // Fetch gearsets from Supabase
+                const { data: gearsets, error } = await supabaseClient
+                .from('Gearsets') // Use the exact table name
+                .select(`*`);
+
+
+                if (error) {
+                    console.error('Error fetching data:', error);
+                    return;
+                }
+
                 // Append each gearset to the list
-                gearsets.forEach((gearset, index) => {
+                gearsets.forEach((gearset) => {
                     const li = document.createElement('li');
                     li.classList.add('list-group-item', 'mb-3');
-    
+
                     // Create a Bootstrap card for each gearset
                     const card = document.createElement('div');
                     card.classList.add('card');
-    
+
                     const cardBody = document.createElement('div');
                     cardBody.classList.add('card-body');
-    
+
                     const cardTitle = document.createElement('h5');
                     cardTitle.classList.add('card-title');
-                    cardTitle.textContent = `Gearset ${index + 1} - ${gearset.firstName} ${gearset.lastName} (${gearset.job})`;
-    
+                    cardTitle.textContent = `${gearset.Name} (${gearset.Job}) `;
+
                     // Create a div to hold the formatted gearset
                     const gearsetDisplay = document.createElement('div');
                     gearsetDisplay.classList.add('card-text');
                     let formattedGearset = '';
-    
+
+                    // List of gear slots
+                    const gearSlots = ['Weapon', 'Head', 'Chest', 'Hands', 'Legs', 'Feet', 'Ears', 'Neck', 'Wrist', 'Ring1', 'Ring2'];
+
+                    // Map numeric codes back to selection strings
+                    const codeToSelection = {
+                        0: 'Raid',
+                        1: 'Tome',
+                        2: 'Other',
+                        null: 'None' // Assuming null represents 'None'
+                    };
+
                     // Format the gearset with each slot on a new line
-                    Object.keys(gearset.selections).forEach(slot => {
-                        formattedGearset += `${capitalize(slot)}: ${gearset.selections[slot]}<br>`;
+                    gearSlots.forEach(slot => {
+                        const numericValue = gearset[slot];
+                        const selection = codeToSelection[numericValue];
+                        formattedGearset += `${capitalize(slot)}: ${selection}<br>`;
                     });
-    
+
                     gearsetDisplay.innerHTML = formattedGearset;
-    
+
                     // Create a delete button for this gearset
                     const deleteBtn = document.createElement('button');
                     deleteBtn.classList.add('btn', 'btn-danger', 'btn-sm', 'ml-2');
                     deleteBtn.textContent = 'Delete';
                     deleteBtn.onclick = function() {
-                        deleteGearset(index);
+                        deleteGearset(gearset.id);
                     };
-    
+
                     // Append elements together
                     cardBody.appendChild(cardTitle);
                     cardBody.appendChild(gearsetDisplay);
                     cardBody.appendChild(deleteBtn);
                     card.appendChild(cardBody);
                     li.appendChild(card);
-    
+
                     // Append the list item to the gearset list
                     gearsetList.appendChild(li);
                 });
             }
+
     
             // Function to delete a gearset by index
-            function deleteGearset(index) {
-                // Get the current gearsets from localStorage
-                let gearsets = JSON.parse(localStorage.getItem('gearsets')) || [];
-    
-                // Remove the gearset at the specified index
-                gearsets.splice(index, 1);
-    
-                // Save the updated gearsets array back to localStorage
-                localStorage.setItem('gearsets', JSON.stringify(gearsets));
-    
-                // Update the gearset list display
-                displayGearsets();
+            async function deleteGearset(id) {
+                const { error } = await supabaseClient
+                    .from('gearsets')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) {
+                    console.error('Error deleting gearset:', error);
+                    alert('There was an error deleting the gearset.');
+                } else {
+                    // Update the gearset list display
+                    displayGearsets();
+                }
             }
+
     
             // Helper function to capitalize the first letter of the slot names
             function capitalize(string) {
